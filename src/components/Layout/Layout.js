@@ -1,11 +1,12 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import './Layout.css';
 
 const Layout = ({ children }) => {
   const { user, logout } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const isActive = (path) => {
     return location.pathname === path ? 'active' : '';
@@ -14,7 +15,13 @@ const Layout = ({ children }) => {
   const handleLogout = () => {
     if (window.confirm('Вы уверены, что хотите выйти?')) {
       logout();
+      navigate('/login');
     }
+  };
+
+  const getInitials = () => {
+    if (!user) return '?';
+    return `${user.first_name[0]}${user.last_name[0]}`.toUpperCase();
   };
 
   return (
@@ -28,6 +35,10 @@ const Layout = ({ children }) => {
           <div className="navbar-nav">
             <Link to="/projects" className={`navbar-link ${isActive('/projects')}`}>
               Объекты
+            </Link>
+
+            <Link to="/profile" className={`navbar-link ${isActive('/profile')}`}>
+              Профиль
             </Link>
 
             <div className="navbar-user">
