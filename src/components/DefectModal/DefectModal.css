@@ -1,0 +1,102 @@
+.defect-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+  }
+  
+  .defect-modal-content {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    width: 100%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  
+  .defect-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  
+  .defect-modal-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .defect-modal-close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #999;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+  }
+  
+  .defect-modal-close-btn:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .defect-modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .defect-modal-footer {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+  }
+  
+  .defect-modal-btn {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .defect-modal-btn-cancel {
+    background-color: #f0f0f0;
+    color: #000;
+  }
+  
+  .defect-modal-btn-cancel:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .defect-modal-btn-submit {
+    background-color: #000;
+    color: white;
+  }
+  
+  .defect-modal-btn-submit:hover {
+    background-color: #333;
+  }
+  
+  .defect-modal-btn-submit:disabled {
+    background-color: #999;
+    cursor: not-allowed;
+  }

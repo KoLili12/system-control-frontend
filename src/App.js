@@ -7,6 +7,8 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import RegisterPage from './pages/RegisterPage/RegisterPage';
 import ProjectsPage from './pages/ProjectsPage/ProjectsPage';
 import ProjectDetailPage from './pages/ProjectDetailPage/ProjectDetailPage';
+import DefectsPage from './pages/DefectsPage/DefectsPage';
+import DefectDetailPage from './pages/DefectDetailPage/DefectDetailPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 
 function App() {
@@ -43,6 +45,26 @@ function App() {
               <ProtectedRoute>
                 <Layout>
                   <ProjectDetailPage />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/defects"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <DefectsPage />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/defects/:id"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <DefectDetailPage />
                 </Layout>
               </ProtectedRoute>
             }

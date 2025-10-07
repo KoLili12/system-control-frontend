@@ -37,6 +37,10 @@ const Layout = ({ children }) => {
               Объекты
             </Link>
 
+            <Link to="/defects" className={`navbar-link ${isActive('/defects')}`}>
+                Дефекты
+            </Link>
+
             <Link to="/profile" className={`navbar-link ${isActive('/profile')}`}>
               Профиль
             </Link>

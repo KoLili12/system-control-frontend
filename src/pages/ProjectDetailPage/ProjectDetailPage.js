@@ -1,9 +1,71 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { projectsApi } from '../../api/projectsApi';
+import { defectsApi } from '../../api/defectsApi';
 import { formatDateTime } from '../../utils/dateUtils';
 import { getStatusInfo } from '../../utils/statusUtils';
 import './ProjectDetailPage.css';
+
+// Компонент статистики по дефектам
+const DefectsStats = ({ projectId }) => {
+  const [stats, setStats] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    loadStats();
+  }, [projectId]);
+
+  const loadStats = async () => {
+    try {
+      const data = await defectsApi.getProjectDefectsStats(projectId);
+      setStats(data.stats);
+    } catch (error) {
+      console.error('Error loading stats:', error);
+    }
+  };
+
+  if (!stats) return null;
+
+  return (
+    <div style={{ marginTop: '32px', paddingTop: '32px', borderTop: '1px solid #e0e0e0' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+        <h3 style={{ fontSize: '20px', fontWeight: '600', margin: 0 }}>Статистика по дефектам</h3>
+        <button
+          onClick={() => navigate('/defects')}
+          style={{
+            padding: '8px 16px',
+            backgroundColor: '#2196F3',
+            color: 'white',
+            border: 'none',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            fontWeight: '500',
+          }}
+        >
+          Посмотреть все
+        </button>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '12px' }}>
+        <div style={{ background: '#f8f8f8', padding: '16px', borderRadius: '12px', textAlign: 'center' }}>
+          <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#000' }}>{stats.total}</div>
+          <div style={{ fontSize: '13px', color: '#666' }}>Всего</div>
+        </div>
+        <div style={{ background: '#fff3e0', padding: '16px', borderRadius: '12px', textAlign: 'center' }}>
+          <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#FF9800' }}>{stats.registered}</div>
+          <div style={{ fontSize: '13px', color: '#666' }}>Зарегистрировано</div>
+        </div>
+        <div style={{ background: '#e3f2fd', padding: '16px', borderRadius: '12px', textAlign: 'center' }}>
+          <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#2196F3' }}>{stats.in_progress}</div>
+          <div style={{ fontSize: '13px', color: '#666' }}>В работе</div>
+        </div>
+        <div style={{ background: '#e8f5e9', padding: '16px', borderRadius: '12px', textAlign: 'center' }}>
+          <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#4CAF50' }}>{stats.completed}</div>
+          <div style={{ fontSize: '13px', color: '#666' }}>Завершено</div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const ProjectDetailPage = () => {
   const { id } = useParams();
@@ -180,6 +242,9 @@ const ProjectDetailPage = () => {
               </div>
             </div>
           </div>
+
+          {/* Добавляем статистику по дефектам */}
+          <DefectsStats projectId={project.id} />
         </div>
       </div>
     </div>

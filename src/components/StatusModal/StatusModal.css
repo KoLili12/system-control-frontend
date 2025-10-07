@@ -1,0 +1,142 @@
+.status-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+  }
+  
+  .status-modal-content {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .status-modal-header {
+    margin-bottom: 24px;
+  }
+  
+  .status-modal-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0 0 8px 0;
+  }
+  
+  .status-modal-subtitle {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .status-modal-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  
+  .status-option {
+    padding: 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .status-option:hover {
+    border-color: #999;
+  }
+  
+  .status-option.selected {
+    border-color: #2196F3;
+    background-color: #e3f2fd;
+  }
+  
+  .status-option-indicator {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+  
+  .status-option.selected .status-option-indicator {
+    border-color: #2196F3;
+    background-color: #2196F3;
+    position: relative;
+  }
+  
+  .status-option.selected .status-option-indicator::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+  }
+  
+  .status-option-content {
+    flex: 1;
+  }
+  
+  .status-option-label {
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  
+  .status-option-description {
+    font-size: 13px;
+    color: #666;
+  }
+  
+  .status-modal-footer {
+    display: flex;
+    gap: 12px;
+  }
+  
+  .status-modal-btn {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .status-modal-btn-cancel {
+    background-color: #f0f0f0;
+    color: #000;
+  }
+  
+  .status-modal-btn-cancel:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .status-modal-btn-submit {
+    background-color: #2196F3;
+    color: white;
+  }
+  
+  .status-modal-btn-submit:hover {
+    background-color: #1976D2;
+  }
+  
+  .status-modal-btn-submit:disabled {
+    background-color: #999;
+    cursor: not-allowed;
+  }
