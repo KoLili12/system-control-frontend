@@ -2,27 +2,52 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/Auth/ProtectedRoute';
+import Layout from './components/Layout/Layout';
 import LoginPage from './pages/LoginPage/LoginPage';
 import RegisterPage from './pages/RegisterPage/RegisterPage';
+import ProjectsPage from './pages/ProjectsPage/ProjectsPage';
+import ProjectDetailPage from './pages/ProjectDetailPage/ProjectDetailPage';
 
 function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
         <Routes>
+          {/* Public routes */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+
+          {/* Protected routes */}
           <Route
             path="/"
             element={
               <ProtectedRoute>
-                <div style={{ padding: '20px', textAlign: 'center' }}>
-                  <h1>Добро пожаловать!</h1>
-                  <p>Вы успешно вошли в систему</p>
-                </div>
+                <Navigate to="/projects" />
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/projects"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <ProjectsPage />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/projects/:id"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <ProjectDetailPage />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Catch all */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </AuthProvider>
