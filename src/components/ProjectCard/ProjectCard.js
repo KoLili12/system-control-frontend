@@ -1,17 +1,42 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { projectsApi } from '../../api/projectsApi';
-import { formatDate, formatDateTime } from '../../utils/dateUtils';
+import { formatDate } from '../../utils/dateUtils';
 import { getStatusInfo } from '../../utils/statusUtils';
 import './ProjectCard.css';
 
 const ProjectCard = ({ project, onEdit, onDelete, showActions = true }) => {
   const navigate = useNavigate();
   const statusInfo = getStatusInfo(project.status);
-  const imageUrl = projectsApi.getProjectImageUrl(project.id);
+  const [imageUrl, setImageUrl] = useState('https://via.placeholder.com/100?text=No+Image');
+
+  useEffect(() => {
+    loadImage();
+  }, [project.id]);
+
+  const loadImage = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(
+        `http://localhost:8080/api/v1/projects/${project.id}/image`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.ok) {
+        const blob = await response.blob();
+        const objectUrl = URL.createObjectURL(blob);
+        setImageUrl(objectUrl);
+      }
+    } catch (error) {
+      console.error('Error loading image:', error);
+    }
+  };
 
   const handleCardClick = (e) => {
-    // Не переходить при клике на кнопки действий
     if (e.target.closest('.project-card-actions')) {
       return;
     }
@@ -30,15 +55,21 @@ const ProjectCard = ({ project, onEdit, onDelete, showActions = true }) => {
     }
   };
 
+  // Cleanup object URL on unmount
+  useEffect(() => {
+    return () => {
+      if (imageUrl.startsWith('blob:')) {
+        URL.revokeObjectURL(imageUrl);
+      }
+    };
+  }, [imageUrl]);
+
   return (
     <div className="project-card" onClick={handleCardClick}>
       <img
         src={imageUrl}
         alt={project.name}
         className="project-card-image"
-        onError={(e) => {
-          e.target.src = 'https://via.placeholder.com/100?text=No+Image';
-        }}
       />
 
       <div className="project-card-content">

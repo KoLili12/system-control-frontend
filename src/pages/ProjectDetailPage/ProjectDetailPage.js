@@ -11,10 +11,17 @@ const ProjectDetailPage = () => {
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [imageUrl, setImageUrl] = useState('https://via.placeholder.com/1200x300?text=No+Image');
 
   useEffect(() => {
     loadProject();
   }, [id]);
+
+  useEffect(() => {
+    if (project) {
+      loadImage();
+    }
+  }, [project]);
 
   const loadProject = async () => {
     try {
@@ -28,6 +35,37 @@ const ProjectDetailPage = () => {
       setLoading(false);
     }
   };
+
+  const loadImage = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(
+        `http://localhost:8080/api/v1/projects/${id}/image`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.ok) {
+        const blob = await response.blob();
+        const objectUrl = URL.createObjectURL(blob);
+        setImageUrl(objectUrl);
+      }
+    } catch (error) {
+      console.error('Error loading image:', error);
+    }
+  };
+
+  // Cleanup object URL on unmount
+  useEffect(() => {
+    return () => {
+      if (imageUrl.startsWith('blob:')) {
+        URL.revokeObjectURL(imageUrl);
+      }
+    };
+  }, [imageUrl]);
 
   if (loading) {
     return (
@@ -54,7 +92,6 @@ const ProjectDetailPage = () => {
   }
 
   const statusInfo = getStatusInfo(project.status);
-  const imageUrl = projectsApi.getProjectImageUrl(project.id);
 
   return (
     <div className="project-detail-page">
@@ -73,9 +110,6 @@ const ProjectDetailPage = () => {
             src={imageUrl}
             alt={project.name}
             className="project-detail-image"
-            onError={(e) => {
-              e.target.src = 'https://via.placeholder.com/1200x300?text=No+Image';
-            }}
           />
 
           <div className="project-detail-main">
